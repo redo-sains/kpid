@@ -8,6 +8,7 @@ import {
 import db from "../config/database";
 
 interface Lembaga
+// @ts-ignore
   extends Model<InferAttributes<Lembaga>, InferCreationAttributes<Lembaga>> {
   // Some fields are optional when calling UserModel.create() or UserModel.build()
   id: CreationOptional<number>;
@@ -16,6 +17,7 @@ interface Lembaga
   deskripsi: string;
 }
 
+// @ts-ignore
 const Lembaga = db.define<Lembaga>(
   "lembaga",
   {

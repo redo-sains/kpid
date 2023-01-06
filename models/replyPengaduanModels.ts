@@ -7,8 +7,10 @@ import {
 } from "sequelize/types";
 import db from "../config/database";
 
+
 interface ReplyPengaduan
   extends Model<
+    // @ts-ignore
     InferAttributes<ReplyPengaduan>,
     InferCreationAttributes<ReplyPengaduan>
   > {
@@ -21,6 +23,7 @@ interface ReplyPengaduan
   pengaduan: number;
 }
 
+// @ts-ignore
 const ReplyPengaduan = db.define<ReplyPengaduan>(
   "reply_pengaduan",
   {

@@ -8,6 +8,7 @@ import {
 import db from "../config/database";
 
 interface profiles
+  // @ts-ignore
   extends Model<InferAttributes<profiles>, InferCreationAttributes<profiles>> {
   // Some fields are optional when calling UserModel.create() or UserModel.build()
   id: CreationOptional<number>;
@@ -19,7 +20,10 @@ interface profiles
   facebook: string;
   twitter: string;
   youtube: string;
+  city_id: number;
 }
+
+// @ts-ignore
 const Profiles = db.define<profiles>(
   "profiles",
   {
@@ -32,6 +36,7 @@ const Profiles = db.define<profiles>(
     facebook: DataTypes.STRING,
     twitter: DataTypes.STRING,
     youtube: DataTypes.STRING,
+    city_id: DataTypes.INTEGER,
   },
   {
     freezeTableName: true,

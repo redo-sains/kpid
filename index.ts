@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import UserRoute from "./routes/UserRoute";
 import publicRoute from "./routes/publicRoute";
+require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 
@@ -14,6 +15,12 @@ app.use(express.static("public"));
 
 app.use(UserRoute);
 app.use(publicRoute);
+
+app.get("/", (req, res) => {
+  res.json({
+    success: "ok",
+  });
+});
 
 app.listen(port, () => {
   console.log(`server dijalankan di port ${port}`);

@@ -9,16 +9,17 @@ import {
 import db from "../config/database";
 
 interface Admin
+// @ts-ignore
   extends Model<InferAttributes<Admin>, InferCreationAttributes<Admin>> {
   // Some fields are optional when calling UserModel.create() or UserModel.build()
   id: CreationOptional<number>;
   username: string;
   password: string;
   type: string;
-
-  partner: number;
+  umkm_id: number;
 }
 
+// @ts-ignore
 const Admin = db.define<Admin>(
   "admin",
   {
@@ -26,7 +27,7 @@ const Admin = db.define<Admin>(
     username: DataTypes.STRING,
     password: DataTypes.STRING,
     type: DataTypes.STRING,
-    partner: DataTypes.INTEGER,
+    umkm_id: DataTypes.INTEGER,
   },
   {
     freezeTableName: true,

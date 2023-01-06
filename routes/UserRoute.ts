@@ -4,10 +4,10 @@ import {
   authAdmin,
   changeAdminPass,
   getAdminById,
-  getAdminsPartner,
+  getAdminsUmkm,
   getAdmins,
   postAdmin,
-  postAdminPartner,
+  postAdminUmkm,
   deleteAdminById,
 } from "../controllers/adminController";
 
@@ -18,10 +18,10 @@ import multer from "multer";
 const upload = multer();
 
 router.get("/admin", getAdmins);
-router.get("/admin/partner", getAdminsPartner);
+router.get("/admin/partner", getAdminsUmkm);
 router.get("/admin/:id", getAdminById);
 router.post("/admin/", upload.any(), postAdmin);
-router.post("/admin/partner/:id", upload.any(), postAdminPartner);
+router.post("/admin/partner/:id", upload.any(), postAdminUmkm);
 router.post("/admin/auth", upload.any(), authAdmin);
 router.delete("/admin/:id", deleteAdminById);
 router.patch("/admin/:id", upload.any(), changeAdminPass);

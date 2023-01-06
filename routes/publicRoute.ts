@@ -22,19 +22,18 @@ import {
 } from "../controllers/commentController";
 
 import {
-  deletePartnerAssetById,
-  deletePartnerAssetByName,
-  deletePartnerById,
-  getPartnerById,
-  getPartnerExclusiveById,
-  getPartnerRadio,
-  getPartners,
-  getPartnerTv,
-  postPartnerAsset,
-  postPartnerRadio,
-  postPartnerTv,
-  updatePartnerById,
-} from "../controllers/partnerController";
+  deleteUmkmAssetById,
+  deleteUmkmAssetByName,
+  deleteUmkmById,
+  getUmkmById,
+  getUmkmExclusiveById,
+  getUmkms,
+  postUmkmAsset,
+  postUmkmByCategory,
+  updateUmkmById,
+  getUmkmByCategory,
+  getTopUmkms,
+} from "../controllers/umkmController";
 import {
   deletePengaduanById,
   deleteReplyPengaduanById,
@@ -90,6 +89,15 @@ import {
   postProfiles,
   updateProfilesById,
 } from "../controllers/profilesController";
+import {
+  deleteLokerById,
+  getLokerById,
+  getLokers,
+  getTopLokers,
+  postLoker,
+  getLokerByIdAdmin,
+  updateLokerById,
+} from "../controllers/lokerController";
 
 var storage = multer.diskStorage({
   destination: "./images",
@@ -105,18 +113,48 @@ const upload = multer({ storage });
 
 const router = express.Router();
 
-router.get("/partner", getPartners);
-router.get("/partner/exclusive", getPartnerExclusiveById);
-router.get("/partner/:id", getPartnerById);
-router.get("/partner/type/tv", getPartnerTv);
-router.get("/partner/type/radio", getPartnerRadio);
-router.post("/partner/radio", upload.single("logo"), postPartnerRadio);
-router.post("/partner/tv", upload.single("logo"), postPartnerTv);
-router.post("/partner/:id/asset", upload.single("foto"), postPartnerAsset);
-router.patch("/partner/:id", upload.single("logo"), updatePartnerById);
-router.delete("/partner/:id", deletePartnerById);
-router.delete("/partner/asset/:id", deletePartnerAssetById);
-router.delete("/partner/asset/name/:name", deletePartnerAssetByName);
+router.get("/umkm", getUmkms);
+router.get("/umkm/exclusive", getUmkmExclusiveById);
+router.get("/umkm/:id", getUmkmById);
+router.get("/umkm/category/:category", getUmkmByCategory);
+router.get("/umkm/top/:number", getTopUmkms);
+router.post(
+  "/umkm/:category",
+  upload.fields([
+    {
+      name: "owner_image",
+      maxCount: 1,
+    },
+    {
+      name: "qr_code",
+      maxCount: 1,
+    },
+    {
+      name: "image",
+      maxCount: 1,
+    },
+  ]),
+  postUmkmByCategory
+);
+// router.post("/umkm/tv", upload.single("logo"), postPartnerTv);
+router.post("/umkm/:id/asset", upload.single("foto"), postUmkmAsset);
+router.patch(
+  "/umkm/:id",
+  upload.fields([
+    {
+      name: "owner_image",
+      maxCount: 1,
+    },
+    {
+      name: "qr_code",
+      maxCount: 1,
+    },
+  ]),
+  updateUmkmById
+);
+router.delete("/umkm/:id", deleteUmkmById);
+router.delete("/umkm/asset/:id", deleteUmkmAssetById);
+router.delete("/umkm/asset/name/:name", deleteUmkmAssetByName);
 
 //visi misi
 router.get("/profil", getProfil);
@@ -138,10 +176,10 @@ router.patch(
 
 // comment
 router.get("/comment", getComments);
-router.get("/comment/:partner", getCommentByPartner);
-router.get("/comment/top/:partner/:number", getTopComments);
-router.post("/comment/:partner", upload.single("foto"), postComment);
-router.get("/comment/:partner/rating", getRatingByPartnerId);
+router.get("/comment/:umkm_id", getCommentByPartner);
+router.get("/comment/top/:umkm_id/:number", getTopComments);
+router.post("/comment/:umkm_id", upload.single("foto"), postComment);
+router.get("/comment/:umkm_id/rating", getRatingByPartnerId);
 router.delete("/comment/:id", deleteCommentById);
 
 // commentArticle
@@ -162,7 +200,7 @@ router.get("/article/:id", getArticleById);
 router.get("/article/top/:number", getTopArticles);
 router.post("/article", upload.single("gambar"), postArticle);
 router.post("/article/:id/asset", upload.single("foto"), postArticleAsset);
-router.patch("/article/:id", upload.any(), updateArticle);
+router.patch("/article/:id", upload.single("gambar"), updateArticle);
 router.patch(
   "/article/asset/:id",
   upload.single("foto"),
@@ -202,5 +240,14 @@ router.get("/profiles/top/:number", getTopProfiles);
 router.post("/profiles", upload.single("foto"), postProfiles);
 router.patch("/profiles/:id", upload.single("foto"), updateProfilesById);
 router.delete("/profiles/:id", deleteProfilesById);
+
+// Loker
+router.get("/lokers", getLokers);
+router.get("/loker/:id", getLokerById);
+router.get("/loker/admin/:admin_id", getLokerByIdAdmin);
+router.get("/loker/top/:number", getTopLokers);
+router.post("/loker", upload.single("image"), postLoker);
+router.patch("/loker/:id", upload.single("image"), updateLokerById);
+router.delete("/loker/:id", deleteLokerById);
 
 export default router;

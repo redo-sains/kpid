@@ -8,6 +8,7 @@ import {
 import db from "../config/database";
 
 interface profil
+// @ts-ignore
   extends Model<InferAttributes<profil>, InferCreationAttributes<profil>> {
   // Some fields are optional when calling UserModel.create() or UserModel.build()
 
@@ -20,6 +21,7 @@ interface profil
   id: CreationOptional<number>;
 }
 
+// @ts-ignore
 const Profil = db.define<profil>(
   "profil",
   {

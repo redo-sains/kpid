@@ -37,7 +37,7 @@ export const getCommentArticleById = async (req: Request, res: Response) => {
 export const postCommentArticle = async (req: Request, res: Response) => {
   try {
     const { article } = req.params;
-    const { nama, komen, rating } = req.body;
+    const { nama = "", komen = "", rating = "0" } = req.body;
 
     const file = req.file as Express.Multer.File;
     const filter = JSON.parse(JSON.stringify({ nama, komen, rating, article }));

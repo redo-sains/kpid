@@ -9,6 +9,7 @@ import db from "../config/database";
 
 interface Pengaduan
   extends Model<
+  // @ts-ignore
     InferAttributes<Pengaduan>,
     InferCreationAttributes<Pengaduan>
   > {
@@ -20,6 +21,7 @@ interface Pengaduan
   input_at: string;
 }
 
+// @ts-ignore
 const Partner = db.define<Pengaduan>(
   "pengaduan",
   {

@@ -2,11 +2,12 @@ import Article from "../models/articleModels";
 import { Request, Response, NextFunction } from "express";
 import ArticleAssetsModel from "../models/articleAssetsModels";
 import sequelize from "sequelize";
+import CommentArticle from "../models/commentArticleModels";
 const fs = require("fs");
 
 export const getArticles = async (req: Request, res: Response) => {
   try {
-    const response = await Article.findAll();
+    const response = await Article.findAll({ order: [["input_at", "DESC"]] });
     const values = response.map((article) => {
       const { id, judul, deskripsi, gambar, input_at } = article;
       const value = {
@@ -220,7 +221,23 @@ export const updateArticle = async (req: Request, res: Response) => {
   try {
     const { judul, deskripsi } = req.body;
     const { id } = req.params;
-    const update = { judul, deskripsi };
+    const file = req.file as Express.Multer.File;
+
+    const filter = { judul, deskripsi };
+
+    let update = {};
+
+    if (file) {
+      update = {
+        ...filter,
+        gambar: file.filename,
+      };
+    } else {
+      update = {
+        ...filter,
+      };
+    }
+
     const final = JSON.parse(JSON.stringify(update));
 
     const response = await Article.update(
@@ -319,6 +336,24 @@ export const deleteArticleById = async (req: Request, res: Response) => {
         asset.destroy();
       });
     });
+
+    const comment = await CommentArticle.findAll({
+      where: { article: response.id },
+    }).then((comments) => {
+      comments.map((comment) => {
+        comment.foto != "" &&
+          fs.unlink(`./images/${comment.foto}`, (err: any) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+          });
+
+        comment.destroy();
+      });
+    });
+
+    // res.status(200).json(comment);
 
     const destroy = await response
       .destroy()

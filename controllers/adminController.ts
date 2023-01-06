@@ -1,5 +1,5 @@
 import Admin from "../models/adminModels";
-import Partner from "../models/partnerModels";
+import Umkm from "../models/umkmModels";
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 
@@ -16,16 +16,16 @@ export const getAdmins = async (req: Request, res: Response) => {
   }
 };
 
-export const getAdminsPartner = async (req: Request, res: Response) => {
+export const getAdminsUmkm = async (req: Request, res: Response) => {
   try {
     const response = await Admin.findAll({
-      where: { type: "partner" },
+      where: { type: "umkm admin" },
     });
 
-    const partners = await Partner.findAll();
+    const umkm = await Umkm.findAll();
 
     const result = response.map((d) => {
-      const { id, username, password, type, partner } = d;
+      const { id, username, password, type, umkm_id } = d;
       const {
         id: id_partner,
         type: type_partner,
@@ -37,15 +37,14 @@ export const getAdminsPartner = async (req: Request, res: Response) => {
         facebook,
         youtube,
         google_maps,
-        logo,
-      } = partners.find((a) => a.id == d.partner);
+      } = umkm.find((a) => a.id == d.umkm_id);
 
       return {
         id,
         username,
         password,
         type,
-        partner,
+        umkm_id,
         detail_partner: {
           id: id_partner,
           type: type_partner,
@@ -57,7 +56,6 @@ export const getAdminsPartner = async (req: Request, res: Response) => {
           facebook,
           youtube,
           google_maps,
-          logo,
         },
       };
     });
@@ -97,11 +95,11 @@ export const postAdmin = async (req: Request, res: Response) => {
     const response = await Admin.create({
       username,
       password,
-      type: "admin",
+      type: "super admin",
     }).then(() => {
       return {
         success: true,
-        message: "Admin Akun Berhasil Di Buat",
+        message: "Super Admin Akun Berhasil Di Buat",
       };
     });
 
@@ -115,7 +113,7 @@ export const postAdmin = async (req: Request, res: Response) => {
   }
 };
 
-export const postAdminPartner = async (req: Request, res: Response) => {
+export const postAdminUmkm = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { username, password } = req.body;
@@ -123,12 +121,12 @@ export const postAdminPartner = async (req: Request, res: Response) => {
     const response = await Admin.create({
       username,
       password,
-      type: "partner",
-      partner: parseInt(id),
+      type: "umkm admin",
+      umkm_id: parseInt(id),
     }).then(() => {
       return {
         success: true,
-        message: "Partner Admin Akun Berhasil Di Buat",
+        message: "Umkm Admin Akun Berhasil Di Buat",
       };
     });
 
@@ -157,7 +155,7 @@ export const authAdmin = async (req: Request, res: Response) => {
               username: d.username,
               type: d.type,
               id: d.id,
-              partner: d.partner,
+              umkm_id: d.umkm_id,
             },
             auth: bcrypt.compareSync(password, d.password),
             message: bcrypt.compareSync(password, d.password)

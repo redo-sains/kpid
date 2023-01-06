@@ -10,6 +10,7 @@ import db from "../config/database";
 
 interface ArticleModel
   extends Model<
+  // @ts-ignore
     InferAttributes<ArticleModel>,
     InferCreationAttributes<ArticleModel>
   > {
@@ -21,6 +22,7 @@ interface ArticleModel
   input_at: string;
 }
 
+// @ts-ignore
 const ArticleModel = db.define<ArticleModel>(
   "article",
   {

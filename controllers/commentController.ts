@@ -18,10 +18,10 @@ export const getComments = async (req: Request, res: Response) => {
 
 export const getCommentByPartner = async (req: Request, res: Response) => {
   try {
-    const { partner } = req.params;
+    const { umkm_id } = req.params;
     const response = await Comment.findAll({
       where: {
-        partner,
+        umkm_id,
       },
     });
     res.status(200).json(response);
@@ -36,9 +36,9 @@ export const getCommentByPartner = async (req: Request, res: Response) => {
 
 export const postComment = async (req: Request, res: Response) => {
   try {
-    const { partner } = req.params;
+    const { umkm_id } = req.params;
     const { nama, komen, rating } = req.body;
-    const filter = JSON.parse(JSON.stringify({ nama, komen, rating, partner }));
+    const filter = JSON.parse(JSON.stringify({ nama, komen, rating, umkm_id }));
     let final = {};
 
     const file = req.file as Express.Multer.File;
@@ -102,11 +102,11 @@ export const deleteCommentById = async (req: Request, res: Response) => {
 
 export const getRatingByPartnerId = async (req: Request, res: Response) => {
   try {
-    const { partner } = req.params;
+    const { umkm_id } = req.params;
 
     const response = await Comment.findOne({
       where: {
-        partner,
+        umkm_id,
       },
       attributes: [
         [Sequelize.fn("AVG", Sequelize.col("rating")), "rating"],
@@ -130,10 +130,10 @@ export const getRatingByPartnerId = async (req: Request, res: Response) => {
 
 export const getTopComments = async (req: Request, res: Response) => {
   try {
-    const { number, partner } = req.params;
+    const { number, umkm_id } = req.params;
     const response = await Comment.findAll({
       where: {
-        partner: parseInt(partner),
+        umkm_id: parseInt(umkm_id),
       },
       order: [["input_at", "DESC"]],
       limit: parseInt(number),

@@ -1,12 +1,26 @@
+import { profile } from "console";
 import Profiles from "../models/profilesModels";
 import { Request, Response, NextFunction } from "express";
 import { Sequelize } from "sequelize";
+import City from "../models/cityModels";
 const fs = require("fs");
 
 export const getProfiles = async (req: Request, res: Response) => {
   try {
     const response = await Profiles.findAll();
-    res.status(200).json(response);
+    const value = await Promise.all(
+      response.map(async (profile) => {
+        const data = profile["dataValues"];
+        const city_name = await City.findOne({
+          where: {
+            id: profile.city_id,
+          },
+        }).then((city) => city.city_name);
+
+        return { ...data, city_name };
+      })
+    );
+    res.status(200).json(value);
   } catch (err) {
     let errMsg = "Gagal Untuk Melakukan Request Ini";
     if (err instanceof Error) {
@@ -19,12 +33,19 @@ export const getProfiles = async (req: Request, res: Response) => {
 export const getProfilesById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const response = await Profiles.findAll({
+    const response = await Profiles.findOne({
       where: {
         id,
       },
     });
-    res.status(200).json(response);
+
+    const city_name = await City.findOne({
+      where: {
+        id: response.city_id,
+      },
+    }).then((city) => city.city_name);
+
+    res.status(200).json({ ...response["dataValues"], city_name });
   } catch (err) {
     let errMsg = "Gagal Untuk Melakukan Request Ini";
     if (err instanceof Error) {
@@ -36,8 +57,16 @@ export const getProfilesById = async (req: Request, res: Response) => {
 
 export const postProfiles = async (req: Request, res: Response) => {
   try {
-    const { nama, jabatan, history, instagram, facebook, twitter, youtube } =
-      req.body;
+    const {
+      nama,
+      jabatan,
+      history,
+      instagram,
+      facebook,
+      twitter,
+      youtube,
+      city_id,
+    } = req.body;
     const filter = JSON.parse(
       JSON.stringify({
         nama,
@@ -47,6 +76,7 @@ export const postProfiles = async (req: Request, res: Response) => {
         facebook,
         twitter,
         youtube,
+        city_id,
       })
     );
     let final = {};
@@ -77,6 +107,7 @@ export const postProfiles = async (req: Request, res: Response) => {
         facebook,
         twitter,
         youtube,
+        city_id,
       } = Lembaga;
       return {
         message: "Berhasil Untuk Membuat Profile Anggota",
@@ -91,6 +122,7 @@ export const postProfiles = async (req: Request, res: Response) => {
           facebook,
           twitter,
           youtube,
+          city_id,
         },
       };
     });
@@ -145,7 +177,19 @@ export const getTopProfiles = async (req: Request, res: Response) => {
     const response = await Profiles.findAll({
       limit: parseInt(number),
     });
-    res.status(200).json(response);
+    const value = await Promise.all(
+      response.map(async (profile) => {
+        const data = profile["dataValues"];
+        const city_name = await City.findOne({
+          where: {
+            id: profile.city_id,
+          },
+        }).then((city) => city.city_name);
+
+        return { ...data, city_name };
+      })
+    );
+    res.status(200).json(value);
   } catch (err) {
     let errMsg = "Gagal Untuk Melakukan Request Ini";
     if (err instanceof Error) {
@@ -159,8 +203,16 @@ export const updateProfilesById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const { nama, jabatan, history, instagram, facebook, twitter, youtube } =
-      req.body;
+    const {
+      nama,
+      jabatan,
+      history,
+      instagram,
+      facebook,
+      twitter,
+      youtube,
+      city_id,
+    } = req.body;
     const filter = JSON.parse(
       JSON.stringify({
         nama,
@@ -170,6 +222,7 @@ export const updateProfilesById = async (req: Request, res: Response) => {
         facebook,
         twitter,
         youtube,
+        city_id,
       })
     );
     let final = {};
@@ -211,6 +264,7 @@ export const updateProfilesById = async (req: Request, res: Response) => {
           facebook,
           twitter,
           youtube,
+          city_id,
         } = newProflies;
         return {
           message: "Berhasil Untuk Mengupdate Profile Anggota",
@@ -225,6 +279,7 @@ export const updateProfilesById = async (req: Request, res: Response) => {
             facebook,
             twitter,
             youtube,
+            city_id,
           },
         };
       });
