@@ -24,7 +24,10 @@ const PartnerAssetsModel = db.define<PartnerAssetsModel>(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     partner: { type: DataTypes.NUMBER },
-    foto: { type: DataTypes.STRING, defaultValue: "" },
+    foto: {
+      type: { type: DataTypes.STRING, defaultValue: "" },
+      defaultValue: "",
+    },
   },
   {
     freezeTableName: true,

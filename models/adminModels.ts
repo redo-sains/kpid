@@ -23,9 +23,9 @@ const Admin = db.define<Admin>(
   "admin",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
-    type: DataTypes.STRING,
+    username: { type: DataTypes.STRING, defaultValue: "" },
+    password: { type: DataTypes.STRING, defaultValue: "" },
+    type: { type: DataTypes.STRING, defaultValue: "" },
     partner: DataTypes.INTEGER,
   },
   {

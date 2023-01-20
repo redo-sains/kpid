@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize("u953310580_kpid_db", "u953310580_root", "^A6z:@Uo@", {
-  host: "151.106.117.102",
+const db = new Sequelize("kpid_db", "root", "13Digital@gmailcom", {
+  host: "127.0.0.1",
   dialect: "mysql",
   define: {
     scopes: {

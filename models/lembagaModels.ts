@@ -20,9 +20,9 @@ const Lembaga = db.define<Lembaga>(
   "lembaga",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    nama: { type: DataTypes.STRING },
-    foto: DataTypes.STRING,
-    deskripsi: DataTypes.STRING,
+    nama: { type: DataTypes.STRING, defaultValue: "" },
+    foto: { type: DataTypes.STRING, defaultValue: "" },
+    deskripsi: { type: DataTypes.STRING, defaultValue: "" },
   },
   {
     freezeTableName: true,

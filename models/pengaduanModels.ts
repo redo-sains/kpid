@@ -24,9 +24,9 @@ const Partner = db.define<Pengaduan>(
   "pengaduan",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    nama: DataTypes.STRING,
-    saran: DataTypes.STRING,
-    email: DataTypes.STRING,
+    nama: { type: DataTypes.STRING, defaultValue: "" },
+    saran: { type: DataTypes.STRING, defaultValue: "" },
+    email: { type: DataTypes.STRING, defaultValue: "" },
     input_at: { type: "TIMESTAMP" },
   },
   {

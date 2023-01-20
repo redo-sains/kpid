@@ -25,9 +25,9 @@ const ReplyPengaduan = db.define<ReplyPengaduan>(
   "reply_pengaduan",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    nama: DataTypes.STRING,
-    reply: DataTypes.STRING,
-    email: DataTypes.STRING,
+    nama: { type: DataTypes.STRING, defaultValue: "" },
+    reply: { type: DataTypes.STRING, defaultValue: "" },
+    email: { type: DataTypes.STRING, defaultValue: "" },
     input_at: { type: "TIMESTAMP" },
     pengaduan: { type: DataTypes.INTEGER },
   },

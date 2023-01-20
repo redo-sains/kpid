@@ -24,12 +24,12 @@ const Profil = db.define<profil>(
   "profil",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    visi: { type: DataTypes.STRING },
-    misi: DataTypes.STRING,
-    struktur_organisasi: DataTypes.STRING,
-    latar_belakang: DataTypes.STRING,
-    wilayah_kerja: DataTypes.STRING,
-    program_unggulan: DataTypes.STRING,
+    visi: { type: DataTypes.STRING, defaultValue: "" },
+    misi: { type: DataTypes.STRING, defaultValue: "" },
+    struktur_organisasi: { type: DataTypes.STRING, defaultValue: "" },
+    latar_belakang: { type: DataTypes.STRING, defaultValue: "" },
+    wilayah_kerja: { type: DataTypes.STRING, defaultValue: "" },
+    program_unggulan: { type: DataTypes.STRING, defaultValue: "" },
   },
   {
     freezeTableName: true,

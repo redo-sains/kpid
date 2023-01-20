@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+exports.__esModule = true;
+var express_1 = __importDefault(require("express"));
+var adminController_1 = require("../controllers/adminController");
+var router = express_1["default"].Router();
+var multer_1 = __importDefault(require("multer"));
+var upload = (0, multer_1["default"])();
+router.get("/admin", adminController_1.getAdmins);
+router.get("/admin/partner", adminController_1.getAdminsPartner);
+router.get("/admin/:id", adminController_1.getAdminById);
+router.post("/admin/", upload.any(), adminController_1.postAdmin);
+router.post("/admin/partner/:id", upload.any(), adminController_1.postAdminPartner);
+router.post("/admin/auth", upload.any(), adminController_1.authAdmin);
+router["delete"]("/admin/:id", adminController_1.deleteAdminById);
+router.patch("/admin/:id", upload.any(), adminController_1.changeAdminPass);
+router.use("/images", express_1["default"].static("images"));
+exports["default"] = router;

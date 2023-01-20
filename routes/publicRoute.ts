@@ -162,7 +162,7 @@ router.get("/article/:id", getArticleById);
 router.get("/article/top/:number", getTopArticles);
 router.post("/article", upload.single("gambar"), postArticle);
 router.post("/article/:id/asset", upload.single("foto"), postArticleAsset);
-router.patch("/article/:id", upload.any(), updateArticle);
+router.patch("/article/:id", upload.single("gambar"), updateArticle);
 router.patch(
   "/article/asset/:id",
   upload.single("foto"),

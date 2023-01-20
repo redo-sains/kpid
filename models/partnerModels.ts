@@ -24,22 +24,24 @@ interface PartnerModel
   youtube: string;
   google_maps: string;
   logo: string;
+  stream: string;
 }
 
 const Partner = db.define<PartnerModel>(
   "partner",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    type: DataTypes.STRING,
-    nama: DataTypes.STRING,
-    channel: DataTypes.STRING,
+    type: { type: DataTypes.STRING, defaultValue: "" },
+    nama: { type: DataTypes.STRING, defaultValue: "" },
+    channel: { type: DataTypes.STRING, defaultValue: "" },
     deskripsi: DataTypes.TEXT,
-    alamat: DataTypes.STRING,
-    instagram: DataTypes.STRING,
-    facebook: DataTypes.STRING,
-    youtube: DataTypes.STRING,
-    google_maps: DataTypes.STRING,
-    logo: DataTypes.STRING,
+    alamat: { type: DataTypes.STRING, defaultValue: "" },
+    instagram: { type: DataTypes.STRING, defaultValue: "" },
+    facebook: { type: DataTypes.STRING, defaultValue: "" },
+    youtube: { type: DataTypes.STRING, defaultValue: "" },
+    google_maps: { type: DataTypes.STRING, defaultValue: "" },
+    logo: { type: DataTypes.STRING, defaultValue: "" },
+    stream: { type: DataTypes.STRING, defaultValue: "" },
   },
   {
     freezeTableName: true,

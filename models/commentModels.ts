@@ -5,10 +5,10 @@ const Comment = db.define(
   "comment",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true },
-    nama: DataTypes.STRING,
-    komen: DataTypes.STRING,
-    rating: DataTypes.INTEGER,
-    foto: DataTypes.STRING,
+    nama: { type: DataTypes.STRING, defaultValue: "" },
+    komen: { type: DataTypes.STRING, defaultValue: "" },
+    rating: { type: DataTypes.INTEGER, defaultValue: 0 },
+    foto: { type: DataTypes.STRING, defaultValue: "" },
     input_at: {
       type: "TIMESTAMP",
       defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

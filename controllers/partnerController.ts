@@ -14,7 +14,7 @@ import Admin from "../models/adminModels";
 export const getPartners = async (req: Request, res: Response) => {
   try {
     const response = await Partner.findAll();
-    const values = response.map((article) => {
+    const values = response.map((partner) => {
       const {
         id,
         type,
@@ -27,7 +27,8 @@ export const getPartners = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
-      } = article;
+        stream,
+      } = partner;
       const value = {
         id,
         type,
@@ -40,6 +41,7 @@ export const getPartners = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
+        stream,
       };
       return {
         ...value,
@@ -84,7 +86,7 @@ export const getPartnerExclusiveById = async (req: Request, res: Response) => {
 
     const response1 = admin.map((d) => d.partner);
 
-    const values = response.map((article) => {
+    const values = response.map((partner) => {
       const {
         id,
         type,
@@ -97,7 +99,8 @@ export const getPartnerExclusiveById = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
-      } = article;
+        stream,
+      } = partner;
       const value = {
         id,
         type,
@@ -110,6 +113,7 @@ export const getPartnerExclusiveById = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
+        stream,
       };
 
       if (id != response1.indexOf(id))
@@ -119,27 +123,6 @@ export const getPartnerExclusiveById = async (req: Request, res: Response) => {
     });
 
     const filtered = values.filter((value) => value != null);
-
-    // const promises = await filtered.map((obj) => {
-    //   return PartnerAssetsModel.findAll({ where: { partner: obj.id } }).then(
-    //     function (results) {
-    //       return {
-    //         ...obj,
-    //         assets: [
-    //           obj.logo,
-    //           ...results.map((assets) => {
-    //             return assets.foto;
-    //           }),
-    //         ],
-    //         detail_assets: results,
-    //       };
-    //     }
-    //   );
-    // });
-
-    // const final = await Promise.all(promises).then(function (results) {
-    //   return results;
-    // });
 
     res.status(200).json(filtered);
   } catch (err) {
@@ -170,6 +153,7 @@ export const getPartnerById = async (req: Request, res: Response) => {
       youtube,
       google_maps,
       logo,
+      stream,
     } = response;
     const value = {
       id,
@@ -183,6 +167,7 @@ export const getPartnerById = async (req: Request, res: Response) => {
       youtube,
       google_maps,
       logo,
+      stream,
     };
 
     const final = await PartnerAssetsModel.findAll({
@@ -217,7 +202,7 @@ export const getPartnerTv = async (req: Request, res: Response) => {
         type: "tv",
       },
     });
-    const values = response.map((article) => {
+    const values = response.map((partner) => {
       const {
         id,
         type,
@@ -230,7 +215,8 @@ export const getPartnerTv = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
-      } = article;
+        stream,
+      } = partner;
       const value = {
         id,
         type,
@@ -243,6 +229,7 @@ export const getPartnerTv = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
+        stream,
       };
       return {
         ...value,
@@ -299,6 +286,7 @@ export const getPartnerRadio = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
+        stream,
       } = article;
       const value = {
         id,
@@ -312,6 +300,7 @@ export const getPartnerRadio = async (req: Request, res: Response) => {
         youtube,
         google_maps,
         logo,
+        stream,
       };
       return {
         ...value,
@@ -361,6 +350,7 @@ export const postPartnerRadio = async (req: Request, res: Response) => {
       facebook = "",
       youtube = "",
       google_maps = "",
+      stream = "",
     } = req.body;
 
     const response = await Partner.create({
@@ -374,6 +364,7 @@ export const postPartnerRadio = async (req: Request, res: Response) => {
       youtube,
       google_maps,
       logo: file.filename,
+      stream,
     }).then((d) => {
       return {
         success: true,
@@ -402,6 +393,7 @@ export const postPartnerTv = async (req: Request, res: Response) => {
       facebook = "",
       youtube = "",
       google_maps = "",
+      stream = "",
     } = req.body;
 
     const response = await Partner.create({
@@ -415,6 +407,7 @@ export const postPartnerTv = async (req: Request, res: Response) => {
       youtube,
       google_maps,
       logo: file.filename,
+      stream,
     }).then((d) => {
       return {
         success: true,
@@ -540,6 +533,7 @@ export const updatePartnerById = async (req: Request, res: Response) => {
       facebook,
       youtube,
       google_maps,
+      stream,
     } = req.body;
     let logo;
 
@@ -562,6 +556,7 @@ export const updatePartnerById = async (req: Request, res: Response) => {
       youtube,
       google_maps,
       logo,
+      stream,
     };
     const final = JSON.parse(JSON.stringify(update));
 

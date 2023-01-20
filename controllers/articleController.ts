@@ -220,8 +220,23 @@ export const updateArticle = async (req: Request, res: Response) => {
   try {
     const { judul, deskripsi } = req.body;
     const { id } = req.params;
+    const file = req.file as Express.Multer.File;
+
     const update = { judul, deskripsi };
-    const final = JSON.parse(JSON.stringify(update));
+    const filter = JSON.parse(JSON.stringify(update));
+
+    let final = {};
+	
+    if (file) {
+      final = {
+        ...filter,
+        gambar: file.filename,
+      };
+    } else {
+      final = {
+        ...filter,
+      };
+    }
 
     const response = await Article.update(
       { ...final },
